@@ -430,3 +430,19 @@ body.cur-hov .cur-ring{width:58px;height:58px;}
 .hp--static .hp__progress,.hp--static+ .hp__hint,.hp--static .hp__hint{display:none;}
 /* --- dark page baseline (kontakty) --- */
 body.page-dark{background:var(--onyx);color:var(--paper);}
+
+/* --- animation layer v2 --- */
+.veil{position:fixed;inset:0;background:var(--onyx);z-index:400;transform:translateY(101%);pointer-events:none;will-change:transform;}
+.progress-line{position:fixed;top:0;left:0;right:0;height:2px;background:#fff;mix-blend-mode:difference;transform-origin:0 50%;transform:scaleX(0);z-index:260;pointer-events:none;}
+.hdr{will-change:transform;}
+.mem{opacity:0;}
+.team-photo{opacity:0;}
+.no-js .mem,.no-js .team-photo{opacity:1;}
+@media(prefers-reduced-motion:reduce){
+  .veil,.progress-line{display:none;}
+  .mem,.team-photo{opacity:1;}
+}
+@media(max-width:880px){
+  .mem,.team-photo{opacity:1;}
+}
+.word{will-change:transform,opacity;display:inline-block;}
