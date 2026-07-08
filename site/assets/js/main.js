@@ -64,6 +64,23 @@ if(!reduce){
     }});
 }
 
+/* ============ GLOBAL: adaptive header theme (light text over dark sections) ============ */
+(function(){
+  const hdr=document.querySelector('.hdr');
+  if(!hdr)return;
+  if(document.body.classList.contains('page-dark')){hdr.classList.add('on-dark');return;}
+  const darks=[...document.querySelectorAll('.hero--dark,.cta,.footer,.practices,.contacts')];
+  if(!darks.length)return;
+  const line=44; // ~vertical centre of the header
+  const update=()=>{
+    const onDark=darks.some(s=>{const r=s.getBoundingClientRect();return r.top<=line&&r.bottom>line;});
+    hdr.classList.toggle('on-dark',onDark);
+  };
+  ScrollTrigger.create({start:0,end:'max',onUpdate:update});
+  update();
+  addEventListener('load',update);
+})();
+
 /* ============ hero masked reveal ============ */
 const heroRows=document.querySelectorAll('[data-hero] .row i');
 if(heroRows.length){
@@ -203,17 +220,6 @@ if(hp&&track){
   }else if(reduce){
     hp.classList.add('hp--static');
   }
-}
-
-/* ============ magnetic buttons ============ */
-if(fine&&!reduce){
-  document.querySelectorAll('.btn').forEach(b=>{
-    b.addEventListener('mousemove',e=>{
-      const r=b.getBoundingClientRect();
-      gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.22,y:(e.clientY-r.top-r.height/2)*.28,duration:.5,ease:'power3.out'});
-    });
-    b.addEventListener('mouseleave',()=>gsap.to(b,{x:0,y:0,duration:.7,ease:'elastic.out(1,.45)'}));
-  });
 }
 
 /* ============ FAQ: smooth unfold ============ */
