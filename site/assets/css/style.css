@@ -413,7 +413,8 @@ body.page-dark .cta{padding-top:0;}
 @media(min-width:820px){.pd__head{grid-column:1/6;}.pd__body{grid-column:7/13;}}
 .pd__head .pcard__t{font-size:clamp(1.9rem,3.4vw,3rem);margin-top:16px;}
 .pd__head .pcard__tags{margin-top:26px;}
-.pd__body .pcard__d{max-width:52ch;margin-top:0;}
+.pd__body .pcard__d{max-width:none;margin-top:0;}
+.pd__body .pcard__d+.pcard__d{margin-top:20px;}
 .pdo-k{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-top:34px;}
 .pdo{margin-top:14px;border-top:1px solid var(--line-on);padding:0;}
 .pdo li{list-style:none;display:flex;gap:14px;padding-block:14px;border-bottom:1px solid var(--line-on);color:var(--alabaster);font-size:.95rem;font-weight:300;line-height:1.5;}
