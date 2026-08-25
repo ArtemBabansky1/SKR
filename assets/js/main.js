@@ -202,7 +202,7 @@ if(!reduce){
 
 /* ============ practices: pinned horizontal + ghost parallax / static fallback ============ */
 const hp=document.getElementById('hp'),track=document.getElementById('hpTrack'),prog=document.getElementById('hpProg');
-if(hp&&track){
+if(hp&&track&&getComputedStyle(hp).display!=='none'){
   if(!reduce&&matchMedia('(min-width:881px)').matches){
     const dist=()=>track.scrollWidth-innerWidth;
     const move=gsap.to(track,{x:()=>-dist(),ease:'none',
