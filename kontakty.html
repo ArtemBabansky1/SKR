@@ -9,7 +9,7 @@
 <link rel="preload" href="assets/fonts/vela-200-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cormorant-300-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cormorant-300-700-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css?v=20261019-revisions">
+<link rel="stylesheet" href="assets/css/style.css?v=20261019-fixed-header">
 </head>
 <body class="no-js">
 
@@ -37,13 +37,11 @@
 <a href="komanda.html" class="cursor-target"><span class="nn">03</span>Команда</a>
 <a href="kontakty.html" class="cursor-target is-active" aria-current="page"><span class="nn">04</span>Контакты</a>
 </nav>
+<a href="kontakty.html#leadForm" class="hdr__cta btn btn--solid cursor-target"><span class="lbl">Консультация</span><span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></a>
 <button class="burger cursor-target" id="burger" aria-label="Меню"><span></span><span></span></button>
 </div>
 </header>
 
-<div class="consultation-dock">
-<a href="kontakty.html#leadForm" class="consultation btn btn--solid cursor-target"><span class="lbl">Консультация</span><span class="arr" aria-hidden="true">↗</span></a>
-</div>
 
 <!-- mobile menu -->
 <div class="mm" id="mm">
@@ -127,7 +125,7 @@
 </label>
 <div class="form__foot">
 <p class="form__note">Первая консультация бесплатна и&nbsp;ни&nbsp;к&nbsp;чему не&nbsp;обязывает.</p>
-<button type="submit" class="btn btn--solid cursor-target"><span class="lbl">Отправить</span><span class="arr">↗</span></button>
+<button type="submit" class="btn btn--solid cursor-target"><span class="lbl">Отправить</span><span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></button>
 </div>
 <p class="form__hint" aria-live="polite"></p>
 </form>
@@ -228,7 +226,7 @@
 <form class="fnews" id="newsForm">
 <input type="email" placeholder="Ваш e-mail" required aria-label="Ваш e-mail">
 <button type="submit" aria-label="Подписаться" class="cursor-target">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.4"/></svg>
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
 </button>
 </form>
 </div>
@@ -246,6 +244,6 @@
 <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/js/vendor/lenis.min.js"></script>
 <script src="assets/js/vendor/splitting.min.js"></script>
-<script src="assets/js/main.js?v=20261019-revisions"></script>
+<script src="assets/js/main.js?v=20261019-fixed-header"></script>
 </body>
 </html>

@@ -44,7 +44,7 @@ void main(){
   light+=ray(point,a,vec2(.2*aspect,1.2),.3)*.04;
   float shade=ray(point,a,vec2((.33-drift)*aspect,1.2),.12)*.035;
   float glow=exp(-length(point-a)*1.4)*.025;
-  vec3 colour=uSurface+vec3(1.,.94,.8)*(light+glow)-vec3(shade);
+  vec3 colour=uSurface+vec3(light+glow)-vec3(shade);
   gl_FragColor=vec4(clamp(colour,0.,1.),1.);
 }`;
 

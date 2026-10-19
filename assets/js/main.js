@@ -53,60 +53,6 @@ if(!reduce){
   gsap.to(bar,{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
 }
 
-/* ============ GLOBAL: header stays at the page top, returns only on scroll up ============ */
-(function(){
-  const hdr=document.querySelector('.hdr');
-  if(!hdr)return;
-  let previous=Math.max(0,scrollY);
-  addEventListener('scroll',()=>{
-    const current=Math.max(0,scrollY);
-    const upwards=current<previous;
-    const downwards=current>previous;
-    previous=current;
-    if(document.getElementById('mm')?.classList.contains('open'))return;
-    if(current===0||(downwards&&hdr.classList.contains('is-returning'))){
-      gsap.killTweensOf(hdr);
-      hdr.classList.remove('is-returning');
-      gsap.set(hdr,{clearProps:'transform'});
-    }else if(upwards&&!hdr.classList.contains('is-returning')){
-      hdr.classList.add('is-returning');
-      if(reduce)gsap.set(hdr,{yPercent:0});
-      else gsap.fromTo(hdr,{yPercent:-110},{yPercent:0,duration:.35,ease:'expo.out',overwrite:true});
-    }
-  },{passive:true});
-})();
-
-/* ============ GLOBAL: adaptive header theme (light text over dark sections) ============ */
-(function(){
-  const hdr=document.querySelector('.hdr');
-  if(!hdr)return;
-  const updateSurface=()=>hdr.classList.toggle('is-scrolled',hdr.classList.contains('is-returning')&&scrollY>20);
-  addEventListener('scroll',updateSurface,{passive:true});
-  updateSurface();
-  if(document.body.classList.contains('page-dark')){hdr.classList.add('on-dark');return;}
-  const darks=[...document.querySelectorAll('.hero--dark,.footer')];
-  if(!darks.length)return;
-  const line=44; // ~vertical centre of the header
-  const update=()=>{
-    const onDark=darks.some(s=>{const r=s.getBoundingClientRect();return r.top<=line&&r.bottom>line;});
-    hdr.classList.toggle('on-dark',onDark);
-  };
-  ScrollTrigger.create({start:0,end:'max',onUpdate:update});
-  update();
-  addEventListener('load',update);
-})();
-
-/* ============ persistent consultation panel surface ============ */
-(function(){
-  const dock=document.querySelector('.consultation-dock'),footer=document.querySelector('.footer');
-  if(!dock||!footer)return;
-  const update=()=>dock.classList.toggle('on-dark',footer.getBoundingClientRect().top<=innerHeight-dock.offsetHeight);
-  addEventListener('scroll',update,{passive:true});
-  addEventListener('resize',update);
-  addEventListener('load',update);
-  update();
-})();
-
 /* ============ hero masked reveal ============ */
 const heroRows=document.querySelectorAll('[data-hero] .row i');
 if(heroRows.length){
