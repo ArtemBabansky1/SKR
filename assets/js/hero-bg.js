@@ -22,9 +22,9 @@ float ray(vec2 point,vec2 source,vec2 target,float spread){
   vec2 offset=point-source;
   float along=dot(offset,direction);
   float across=abs(offset.x*direction.y-offset.y*direction.x);
-  float width=.008+max(along,0.)*spread;
+  float width=.018+max(along,0.)*spread*1.4;
   float d=across/width;
-  return (1.-smoothstep(.6,1.,d))*smoothstep(0.,.15,along);
+  return exp(-1.5*d*d)*smoothstep(0.,.15,along);
 }
 void main(){
   vec2 uv=gl_FragCoord.xy/uRes;
@@ -32,7 +32,7 @@ void main(){
   float aspect=uRes.x/uRes.y;
   vec2 point=vec2(uv.x*aspect,uv.y);
   float drift=sin(uTime*.13)*.045;
-  // Narrow cores with soft edges keep the rays distinct from the base.
+  // Gaussian falloff softens each beam without washing out the grey base.
   vec2 a=vec2((.93+drift)*aspect,-.24);
   vec2 b=vec2((.38-drift*.5)*aspect,-.42);
   vec2 c=vec2(1.24*aspect,.02+drift);
