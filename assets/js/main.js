@@ -84,7 +84,7 @@ if(!reduce){
   addEventListener('scroll',updateSurface,{passive:true});
   updateSurface();
   if(document.body.classList.contains('page-dark')){hdr.classList.add('on-dark');return;}
-  const darks=[...document.querySelectorAll('.hero--dark,.cta,.footer,.practices,.contacts')];
+  const darks=[...document.querySelectorAll('.hero--dark,.footer')];
   if(!darks.length)return;
   const line=44; // ~vertical centre of the header
   const update=()=>{
@@ -94,6 +94,17 @@ if(!reduce){
   ScrollTrigger.create({start:0,end:'max',onUpdate:update});
   update();
   addEventListener('load',update);
+})();
+
+/* ============ persistent consultation panel surface ============ */
+(function(){
+  const dock=document.querySelector('.consultation-dock'),footer=document.querySelector('.footer');
+  if(!dock||!footer)return;
+  const update=()=>dock.classList.toggle('on-dark',footer.getBoundingClientRect().top<=innerHeight-dock.offsetHeight);
+  addEventListener('scroll',update,{passive:true});
+  addEventListener('resize',update);
+  addEventListener('load',update);
+  update();
 })();
 
 /* ============ hero masked reveal ============ */
@@ -175,15 +186,14 @@ if(!reduce){
   });
 }
 
-/* ============ BLOCKS: team cards — clip reveal + photo settle + caption cascade ============ */
+/* ============ BLOCKS: team cards — clip reveal + caption cascade ============ */
 if(!reduce){
   gsap.utils.toArray('.mem').forEach((card,i)=>{
-    const img=card.querySelector('.mem__img'),pic=card.querySelector('.mem__img img'),
+    const img=card.querySelector('.mem__img'),
           cap=card.querySelectorAll('figcaption > *');
     const tl=gsap.timeline({scrollTrigger:{trigger:card,start:'top 88%',once:true},defaults:{ease:'expo.out'}});
     tl.set(card,{opacity:1})
       .fromTo(img,{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0% 0 0 0)',duration:1.1,delay:(i%4)*.1},0)
-      .fromTo(pic,{scale:1.25},{scale:1,duration:1.4},0)
       .fromTo(cap,{y:22,opacity:0},{y:0,opacity:1,duration:.8,stagger:.08},.35);
   });
   const tp=document.querySelector('.team-photo');
@@ -197,10 +207,6 @@ if(!reduce){
     gsap.fromTo(img,{yPercent:-6},{yPercent:6,ease:'none',
       scrollTrigger:{trigger:tp,start:'top bottom',end:'bottom top',scrub:.4}});
   }
-  gsap.utils.toArray('.mem__img img').forEach(img=>{
-    gsap.fromTo(img,{yPercent:-4},{yPercent:4,ease:'none',
-      scrollTrigger:{trigger:img.closest('.mem'),start:'top bottom',end:'bottom top',scrub:.4}});
-  });
 }
 
 /* ============ BLOCKS: practice details — head slides, list items cascade ============ */
