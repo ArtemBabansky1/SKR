@@ -1,4 +1,4 @@
-/* Slowly drifting, diffuse daylight. CSS supplies a static fallback. */
+/* Slowly drifting white rays on the unchanged grey surface. */
 (function(){
   const canvas=document.getElementById('heroBg');
   if(!canvas)return;
@@ -22,9 +22,9 @@ float ray(vec2 point,vec2 source,vec2 target,float spread){
   vec2 offset=point-source;
   float along=dot(offset,direction);
   float across=abs(offset.x*direction.y-offset.y*direction.x);
-  float width=.035+max(along,0.)*spread;
+  float width=.008+max(along,0.)*spread;
   float d=across/width;
-  return exp(-d*d)*smoothstep(0.,.15,along)/(1.+max(along,0.)*.15);
+  return (1.-smoothstep(.6,1.,d))*smoothstep(0.,.15,along);
 }
 void main(){
   vec2 uv=gl_FragCoord.xy/uRes;
@@ -32,19 +32,15 @@ void main(){
   float aspect=uRes.x/uRes.y;
   vec2 point=vec2(uv.x*aspect,uv.y);
   float drift=sin(uTime*.13)*.045;
-  // Separate sources, unequal widths and overlapping halos produce scattered
-  // daylight instead of identical cones radiating from one corner.
+  // Narrow cores with soft edges keep the rays distinct from the base.
   vec2 a=vec2((.93+drift)*aspect,-.24);
   vec2 b=vec2((.38-drift*.5)*aspect,-.42);
   vec2 c=vec2(1.24*aspect,.02+drift);
-  float light=ray(point,a,vec2(.06*aspect,1.2),.095)*.085;
-  light+=ray(point,a,vec2((.52+drift)*aspect,1.2),.045)*.1;
-  light+=ray(point,b,vec2(-.48*aspect,1.2),.12)*.055;
-  light+=ray(point,c,vec2(.68*aspect,1.2),.075)*.065;
-  light+=ray(point,a,vec2(.2*aspect,1.2),.3)*.04;
-  float shade=ray(point,a,vec2((.33-drift)*aspect,1.2),.12)*.035;
-  float glow=exp(-length(point-a)*1.4)*.025;
-  vec3 colour=uSurface+vec3(light+glow)-vec3(shade);
+  float light=ray(point,a,vec2(.06*aspect,1.2),.022)*.96;
+  light=max(light,ray(point,a,vec2((.52+drift)*aspect,1.2),.014)*.88);
+  light=max(light,ray(point,b,vec2(-.48*aspect,1.2),.025)*.7);
+  light=max(light,ray(point,c,vec2(.68*aspect,1.2),.018)*.82);
+  vec3 colour=mix(uSurface,vec3(1.),light);
   gl_FragColor=vec4(clamp(colour,0.,1.),1.);
 }`;
 

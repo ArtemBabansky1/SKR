@@ -114,22 +114,28 @@ if(!reduce){
   });
 }
 
-/* ============ BLOCKS: facts — rise + line draw + counters ============ */
-if(!reduce){
-  gsap.utils.toArray('.fact').forEach((f,i)=>{
-    gsap.fromTo(f,{y:34,opacity:0},{y:0,opacity:1,duration:1,ease:'expo.out',delay:(i%5)*.08,
-      scrollTrigger:{trigger:f,start:'top 92%',once:true}});
-  });
-  document.querySelectorAll('.fact__n').forEach(n=>{
-    const tpl=n.innerHTML;
-    const m=n.textContent.match(/\d+/);
-    if(!m)return;
-    const target=+m[0],obj={v:0};
-    gsap.to(obj,{v:target,duration:1.8,ease:'expo.out',
-      scrollTrigger:{trigger:n,start:'top 92%',once:true},
-      onUpdate:()=>{n.innerHTML=tpl.replace(m[0],String(Math.round(obj.v)));},
-      onComplete:()=>{n.innerHTML=tpl;}});
-  });
+/* ============ BLOCKS: facts — one clock for all counters ============ */
+const facts=document.querySelector('.facts');
+if(facts&&!reduce){
+  const counters=Array.from(facts.querySelectorAll('[data-count-to]'),el=>({
+    el,from:Number(el.dataset.countFrom||0),to:Number(el.dataset.countTo)
+  }));
+  const progress={value:0};
+  const renderCounts=()=>{
+    for(const counter of counters){
+      counter.el.textContent=String(Math.floor(counter.from+(counter.to-counter.from)*progress.value));
+    }
+  };
+  const finishCounts=()=>{
+    for(const counter of counters)counter.el.textContent=String(counter.to);
+  };
+  // A shared trigger and progress value keep the final update simultaneous,
+  // including when the responsive grid spans several rows.
+  const timeline=gsap.timeline({scrollTrigger:{trigger:facts,start:'top 92%',once:true}});
+  timeline.fromTo(facts.querySelectorAll('.fact'),{y:34,opacity:0},
+    {y:0,opacity:1,duration:.7,ease:'expo.out'},0);
+  timeline.to(progress,{value:1,duration:1.8,ease:'none',
+    onStart:renderCounts,onUpdate:renderCounts,onComplete:finishCounts},0);
 }
 
 /* ============ BLOCKS: team cards — clip reveal + caption cascade ============ */
